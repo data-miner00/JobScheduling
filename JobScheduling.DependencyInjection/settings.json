@@ -1,0 +1,10 @@
+﻿{
+  "firstJobOption": {
+    "cronSchedule": "* * * ? * * *"
+  },
+  "secondJobOption": {
+    "cronSchedule": "*/2 * * ? * * *",
+    "optionOne": "its a string",
+    "optionTwo":  23
+  }
+}
