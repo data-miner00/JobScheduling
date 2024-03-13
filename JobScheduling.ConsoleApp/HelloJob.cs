@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 public sealed class HelloJob : IJob
 {
-    public async Task Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
-        await Console.Out.WriteLineAsync("Hello from HelloJob");
+        return Console.Out.WriteLineAsync("Hello from HelloJob");
     }
 }

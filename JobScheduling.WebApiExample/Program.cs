@@ -7,7 +7,7 @@ using Quartz.Impl;
 
 namespace JobScheduling.WebApiExample;
 
-public class Program
+public static class Program
 {
     public static async Task Main(string[] args)
     {
@@ -34,13 +34,13 @@ public class Program
 
         builder.Services.AddSingleton<IEnumerable<JobDescriptor>>(provider => new List<JobDescriptor>
         {
-            new JobDescriptor
+            new()
             {
                 JobType = typeof(FirstJob),
                 Description = "The first job",
                 CronExpression = provider.GetRequiredService<IOptions<FirstJobOption>>().Value.CronExpression,
             },
-            new JobDescriptor
+            new()
             {
                 JobType = typeof(SecondJob),
                 Description = "The second job",
