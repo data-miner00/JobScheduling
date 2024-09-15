@@ -5,6 +5,12 @@ using Quartz.Impl;
 
 public static class Program
 {
+    private const string JobName = "job1";
+    private const string TriggerName = "trigger1";
+    private const string GroupName = "group1";
+
+    private const int IntervalInSeconds = 5;
+
     public static async Task Main(string[] args)
     {
         var job = CreateJob();
@@ -24,7 +30,7 @@ public static class Program
     public static IJobDetail CreateJob()
     {
         IJobDetail job = JobBuilder.Create<HelloJob>()
-            .WithIdentity("job1", "group1")
+            .WithIdentity(JobName, GroupName)
             .WithDescription("An example job")
             .Build();
 
@@ -34,11 +40,11 @@ public static class Program
     public static ITrigger CreateTrigger()
     {
         ITrigger trigger = TriggerBuilder.Create()
-            .WithIdentity("trigger1", "group1")
+            .WithIdentity(TriggerName, GroupName)
             .StartNow()
-            .WithSimpleSchedule(x => x.WithIntervalInSeconds(10).RepeatForever())
+            .WithSimpleSchedule(x => x.WithIntervalInSeconds(IntervalInSeconds).RepeatForever())
             .Build();
-                
+
         return trigger;
     }
 
