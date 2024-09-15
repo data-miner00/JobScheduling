@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduling.ConsoleApp", "JobScheduling.ConsoleApp\JobScheduling.ConsoleApp.csproj", "{F1D1A5B3-8A3B-4FF0-8FFC-E1D8F6A56859}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduling.Simplest", "JobScheduling.Simplest\JobScheduling.Simplest.csproj", "{F1D1A5B3-8A3B-4FF0-8FFC-E1D8F6A56859}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduling.DependencyInjection", "JobScheduling.DependencyInjection\JobScheduling.DependencyInjection.csproj", "{1237FFEA-C7D7-441C-A635-9B0D793DC03E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduling.HangfireApp", "JobScheduling.HangfireApp\JobScheduling.HangfireApp.csproj", "{8ED31EC9-9A5F-4BDF-B29E-ADC314512FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobScheduling.WebApiExample", "JobScheduling.WebApiExample\JobScheduling.WebApiExample.csproj", "{C5B629FB-6F3F-4A33-927C-BB24F631E1F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobScheduling.WebApiExample", "JobScheduling.WebApiExample\JobScheduling.WebApiExample.csproj", "{C5B629FB-6F3F-4A33-927C-BB24F631E1F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

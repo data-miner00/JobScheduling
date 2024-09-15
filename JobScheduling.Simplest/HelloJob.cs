@@ -1,4 +1,4 @@
-﻿namespace JobScheduling.ConsoleApp;
+﻿namespace JobScheduling.Simplest;
 
 using Quartz;
 using System.Threading.Tasks;
