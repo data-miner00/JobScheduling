@@ -1,16 +1,17 @@
 ﻿namespace JobScheduling.DependencyInjection.Options;
 
 using System.ComponentModel.DataAnnotations;
+using JobScheduling.Common;
 
 public sealed class SecondJobOption
 {
     [Required]
     [CronExpresssion]
-    public string CronSchedule { get; set; }
+    required public string CronSchedule { get; set; }
 
     [Required]
-    public string OptionOne { get; set; }
+    required public string OptionOne { get; set; }
 
     [Required]
-    public int OptionTwo { get; set; }
+    required public int OptionTwo { get; set; }
 }

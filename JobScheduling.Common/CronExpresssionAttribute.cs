@@ -1,4 +1,4 @@
-﻿namespace JobScheduling.DependencyInjection.Options;
+﻿namespace JobScheduling.Common;
 
 using Quartz;
 using System.ComponentModel.DataAnnotations;

@@ -1,10 +1,11 @@
 ﻿namespace JobScheduling.DependencyInjection.Options;
 
 using System.ComponentModel.DataAnnotations;
+using JobScheduling.Common;
 
 public sealed class FirstJobOption
 {
     [Required]
     [CronExpresssion]
-    public string CronSchedule { get; set; }
+    required public string CronSchedule { get; set; }
 }
