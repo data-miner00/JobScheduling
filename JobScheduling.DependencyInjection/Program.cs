@@ -1,34 +1,48 @@
-﻿using Autofac;
-using JobScheduling.DependencyInjection;
+﻿namespace JobScheduling.DependencyInjection;
+
+using Autofac;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
 
-LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
-
-using var container = ContainerConfig.Configure();
-using var scope = container.BeginLifetimeScope();
-
-StdSchedulerFactory factory = new();
-
-IScheduler scheduler = await factory.GetScheduler();
-
-var jobs = scope.Resolve<Dictionary<Type, string>>();
-
-await scheduler.Start();
-
-foreach (var kvp in jobs)
+public static class Program
 {
-    var job = JobBuilder.Create(kvp.Key).Build();
-    var trigger = TriggerBuilder.Create()
-        .StartNow()
-        .WithCronSchedule(kvp.Value)
-        .Build();
+    public static async Task Main(string[] args)
+    {
+        LogProvider.SetCurrentLogProvider(new ConsoleLogProvider());
 
-    await scheduler.ScheduleJob(job, trigger);
+        using var container = ContainerConfig.Configure();
+        using var scope = container.BeginLifetimeScope();
+
+        var scheduler = await CreateSchedulerAsync();
+        await scheduler.Start();
+        await scope.ScheduleAllJobsAsync(scheduler);
+
+        await Console.Out.WriteLineAsync("Press any key to shutdown.");
+        _ = Console.ReadKey();
+
+        await Console.Out.WriteLineAsync("Shutting down...");
+        await scheduler.Shutdown();
+    }
+
+    public static Task<IScheduler> CreateSchedulerAsync()
+    {
+        StdSchedulerFactory factory = new();
+        return factory.GetScheduler();
+    }
+
+    public static async Task ScheduleAllJobsAsync(this ILifetimeScope scope, IScheduler scheduler)
+    {
+        var jobs = scope.Resolve<Dictionary<Type, string>>();
+        foreach (var kvp in jobs)
+        {
+            var job = JobBuilder.Create(kvp.Key).Build();
+            var trigger = TriggerBuilder.Create()
+                .StartNow()
+                .WithCronSchedule(kvp.Value)
+                .Build();
+
+            await scheduler.ScheduleJob(job, trigger);
+        }
+    }
 }
-
-await Task.Delay(20_000);
-
-await scheduler.Shutdown();
-Console.WriteLine("End");
