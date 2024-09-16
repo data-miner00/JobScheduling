@@ -1,40 +1,39 @@
-﻿using JobScheduling.WebApiExample.Options;
+﻿namespace JobScheduling.WebApiExample.Backgrounds;
+
+using JobScheduling.WebApiExample.Options;
 using Microsoft.Extensions.Options;
 
-namespace JobScheduling.WebApiExample.Backgrounds
+public class LogBackgroundService : BackgroundService
 {
-    public class LogBackgroundService : BackgroundService
+    private const string ServiceName = "LogBackgroundService";
+    private readonly FirstJobOption option;
+
+    public LogBackgroundService(IOptions<FirstJobOption> options)
     {
-        private const string ServiceName = "LogBackgroundService";
-        private readonly FirstJobOption option;
+        this.option = options.Value;
+    }
 
-        public LogBackgroundService(IOptions<FirstJobOption> options)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        stoppingToken.ThrowIfCancellationRequested();
+
+        while (!stoppingToken.IsCancellationRequested)
         {
-            this.option = options.Value;
+            await Console.Out.WriteLineAsync($"Logging from {ServiceName} - ExecuteAsync - {DateTime.Now} - {this.option.CronExpression}");
+            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
         }
+    }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    public override Task StopAsync(CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return LogAndStop();
+
+        async Task LogAndStop()
         {
-            stoppingToken.ThrowIfCancellationRequested();
-
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Console.Out.WriteLineAsync($"Logging from {ServiceName} - ExecuteAsync - {DateTime.Now} - {this.option.CronExpression}");
-                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
-            }
-        }
-
-        public override Task StopAsync(CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            return LogAndStop();
-
-            async Task LogAndStop()
-            {
-                await Console.Out.WriteLineAsync($"Logging from {ServiceName} - StopAsync - {DateTime.Now}");
-                await base.StopAsync(cancellationToken);
-            }
+            await Console.Out.WriteLineAsync($"Logging from {ServiceName} - StopAsync - {DateTime.Now}");
+            await base.StopAsync(cancellationToken);
         }
     }
 }

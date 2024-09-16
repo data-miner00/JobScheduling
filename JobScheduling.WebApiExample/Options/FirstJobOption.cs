@@ -1,7 +1,6 @@
-﻿namespace JobScheduling.WebApiExample.Options
+﻿namespace JobScheduling.WebApiExample.Options;
+
+public class FirstJobOption
 {
-    public class FirstJobOption
-    {
-        required public string CronExpression { get; set; }
-    }
+    required public string CronExpression { get; set; }
 }

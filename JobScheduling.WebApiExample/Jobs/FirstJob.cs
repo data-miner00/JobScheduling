@@ -1,12 +1,11 @@
-﻿using Quartz;
+﻿namespace JobScheduling.WebApiExample.Jobs;
 
-namespace JobScheduling.WebApiExample.Jobs
+using Quartz;
+
+public class FirstJob : IJob
 {
-    public class FirstJob : IJob
+    public Task Execute(IJobExecutionContext context)
     {
-        public Task Execute(IJobExecutionContext context)
-        {
-            return Console.Out.WriteLineAsync($"Executing First Job: {DateTime.Now}");
-        }
+        return Console.Out.WriteLineAsync($"Executing First Job: {DateTime.Now}");
     }
 }

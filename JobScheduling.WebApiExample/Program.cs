@@ -1,11 +1,11 @@
+namespace JobScheduling.WebApiExample;
+
 using JobScheduling.WebApiExample.Backgrounds;
 using JobScheduling.WebApiExample.Jobs;
 using JobScheduling.WebApiExample.Models;
 using JobScheduling.WebApiExample.Options;
 using Microsoft.Extensions.Options;
 using Quartz.Impl;
-
-namespace JobScheduling.WebApiExample;
 
 public static class Program
 {
