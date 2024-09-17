@@ -26,10 +26,14 @@ public static class Program
 
         var app = builder.Build();
 
-        app.MapGet("job", (IBackgroundJobClient client) =>
+        app.UseHangfireDashboard();
+
+        app.MapGet("job", (IBackgroundJobClient client, IRecurringJobManager manager) =>
         {
             client.Enqueue(() => Console.WriteLine("First job from background"));
-            return Results.Ok("First job from repsonse");
+            client.Schedule(() => Console.WriteLine("Second job from schedule"), TimeSpan.FromSeconds(5));
+            manager.AddOrUpdate("uniqueId-123", () => Console.WriteLine("Third job from recurring"), "*/1 * * * *");
+            return Results.Ok("Job placed sucessfully");
         });
 
         // Configure the HTTP request pipeline.
