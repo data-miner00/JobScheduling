@@ -1,19 +1,36 @@
 namespace JobScheduling.WebApiExample.HangfireApp;
 
+using Hangfire;
+
 public static class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
         builder.Services.AddAuthorization();
-
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddHangfire(opt =>
+        {
+            opt
+                .UseInMemoryStorage()
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings();
+        });
+
+        builder.Services.AddHangfireServer(opt =>
+        {
+            opt.SchedulePollingInterval = TimeSpan.FromSeconds(5);
+        });
 
         var app = builder.Build();
+
+        app.MapGet("job", (IBackgroundJobClient client) =>
+        {
+            client.Enqueue(() => Console.WriteLine("First job from background"));
+            return Results.Ok("First job from repsonse");
+        });
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
