@@ -1,12 +1,16 @@
 namespace JobScheduling.WebApiExample.HangfireApp;
 
 using Hangfire;
+using JobScheduling.WebApiExample.HangfireApp.Jobs;
 
 public static class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddTransient<FirstJob>();
+        builder.Services.AddTransient<SecondJob>();
 
         builder.Services.AddAuthorization();
         builder.Services.AddEndpointsApiExplorer();
@@ -33,6 +37,10 @@ public static class Program
             client.Enqueue(() => Console.WriteLine("First job from background"));
             client.Schedule(() => Console.WriteLine("Second job from schedule"), TimeSpan.FromSeconds(5));
             manager.AddOrUpdate("uniqueId-123", () => Console.WriteLine("Third job from recurring"), "*/1 * * * *");
+
+            client.Enqueue<FirstJob>(job => job.Main());
+            client.Schedule<SecondJob>(job => job.AlternateWay(), TimeSpan.FromSeconds(5));
+
             return Results.Ok("Job placed sucessfully");
         });
 

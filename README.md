@@ -84,3 +84,4 @@ Logging from LogBackgroundService - ExecuteAsync - 09/16/2024 08:44:04 - 0 0/1 *
 - [Hangfire](https://www.hangfire.io/)
 - [CronMaker](http://www.cronmaker.com/)
 - [Crontab.guru](https://crontab.guru/): Linux standard. Not applicable for Quartz
+- [The Only .NET Scheduler You Should Be Using!](https://www.youtube.com/watch?v=4wURs-67mB0)
