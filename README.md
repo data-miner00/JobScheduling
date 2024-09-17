@@ -9,6 +9,7 @@ An example repository for job scheduling in C#.
 1. **JobScheduling.DependencyInjection**: Using Quartz with dependency Injection
 1. **JobScheduling.WebApiExample**: Using Quartz, background job and WebApi
 1. **JobScheduling.HangfireApp**: Simplest scheduling on Hangfire
+1. **JobScheduling.WebApiExample.HangfireApp**: Using Hangfire and WebApi
 
 ## Details
 
@@ -75,6 +76,19 @@ Logging from LogBackgroundService - ExecuteAsync - 09/16/2024 08:43:54 - 0 0/1 *
 Executing First Job: 09/16/2024 08:44:00
 Executing Second Job: 09/16/2024 08:44:00
 Logging from LogBackgroundService - ExecuteAsync - 09/16/2024 08:44:04 - 0 0/1 * 1/1 * ? *
+```
+
+### JobScheduling.WebApiExample.HangfireApp
+
+This example illustrates running a WebAPI project alongside with Hangfire queue, scheduling and recurring Cron Jobs.
+
+```mermaid
+flowchart TD
+    A[Program] --> F(WebApi)
+    F --> C(job endpoint)
+    C --> D(Queue)
+    C --> E(Schedule)
+    C --> G(Recurring)
 ```
 
 ## Resources
