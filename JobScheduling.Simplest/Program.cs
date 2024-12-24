@@ -8,13 +8,14 @@ public static class Program
     private const string JobName = "job1";
     private const string TriggerName = "trigger1";
     private const string GroupName = "group1";
+    private const string CronExpression = "0 * * ? * *"; // Every minute
 
     private const int IntervalInSeconds = 5;
 
     public static async Task Main(string[] args)
     {
         var job = CreateJob();
-        var trigger = CreateTrigger();
+        var trigger = CreateTrigger(CronExpression);
         var scheduler = await CreateSchedulerAsync();
 
         await scheduler.Start();
@@ -27,7 +28,7 @@ public static class Program
         await scheduler.Shutdown();
     }
 
-    public static IJobDetail CreateJob()
+    private static IJobDetail CreateJob()
     {
         IJobDetail job = JobBuilder.Create<HelloJob>()
             .WithIdentity(JobName, GroupName)
@@ -37,18 +38,28 @@ public static class Program
         return job;
     }
 
-    public static ITrigger CreateTrigger()
+    private static ITrigger CreateTrigger(string? cronExpression = null)
     {
-        ITrigger trigger = TriggerBuilder.Create()
+        TriggerBuilder triggerBuilder = TriggerBuilder.Create()
             .WithIdentity(TriggerName, GroupName)
-            .StartNow()
-            .WithSimpleSchedule(x => x.WithIntervalInSeconds(IntervalInSeconds).RepeatForever())
-            .Build();
+            .StartNow();
+
+        if (string.IsNullOrWhiteSpace(cronExpression))
+        {
+            triggerBuilder = triggerBuilder.WithSimpleSchedule(
+                x => x.WithIntervalInSeconds(IntervalInSeconds).RepeatForever());
+        }
+        else
+        {
+            triggerBuilder = triggerBuilder.WithCronSchedule(cronExpression);
+        }
+
+        ITrigger trigger = triggerBuilder.Build();
 
         return trigger;
     }
 
-    public static Task<IScheduler> CreateSchedulerAsync()
+    private static Task<IScheduler> CreateSchedulerAsync()
     {
         StdSchedulerFactory factory = new();
         return factory.GetScheduler();
