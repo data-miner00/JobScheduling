@@ -2,10 +2,11 @@
 
 using Quartz;
 
-public class FirstJob : IJob
+public sealed class FirstJob : IJob
 {
+    /// <inheritdoc/>
     public Task Execute(IJobExecutionContext context)
     {
-        return Console.Out.WriteLineAsync($"Executing First Job: {DateTime.Now}");
+        return Console.Out.WriteLineAsync($"[{DateTime.Now}] Executing First Job");
     }
 }

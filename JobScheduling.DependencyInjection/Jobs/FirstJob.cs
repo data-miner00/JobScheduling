@@ -3,15 +3,15 @@
 namespace JobScheduling.DependencyInjection.Jobs;
 
 [DisallowConcurrentExecution]
-public class FirstJob : IJob
+public sealed class FirstJob : IJob
 {
     public FirstJob()
     {
         Console.WriteLine();
     }
 
-    public async Task Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
-        await Console.Out.WriteLineAsync("First job is running...");
+        return Console.Out.WriteLineAsync($"[{DateTime.Now}] First job is running...");
     }
 }

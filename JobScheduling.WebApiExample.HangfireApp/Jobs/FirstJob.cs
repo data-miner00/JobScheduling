@@ -9,6 +9,6 @@ public sealed class FirstJob : IJob
 
     public void Main()
     {
-        Console.WriteLine("hello from Main");
+        Console.WriteLine($"[{DateTime.Now}] hello from Main");
     }
 }

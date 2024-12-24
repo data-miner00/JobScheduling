@@ -1,6 +1,9 @@
 ﻿namespace JobScheduling.WebApiExample.Options;
 
-public class SecondJobOption
+using JobScheduling.Common;
+
+public sealed class SecondJobOption
 {
+    [CronExpresssion]
     required public string CronExpression { get; set; }
 }

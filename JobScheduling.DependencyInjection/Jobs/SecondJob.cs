@@ -2,10 +2,10 @@
 
 using Quartz;
 
-public class SecondJob : IJob
+public sealed class SecondJob : IJob
 {
-    public async Task Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
-        await Console.Out.WriteLineAsync("Second job is running...");
+        return Console.Out.WriteLineAsync($"[{DateTime.Now}] Second job is running...");
     }
 }

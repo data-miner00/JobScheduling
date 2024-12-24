@@ -4,7 +4,7 @@ public sealed class SecondJob : IJob
 {
     public void AlternateWay()
     {
-        Console.WriteLine("Hello from alternate");
+        Console.WriteLine($"[{DateTime.Now}] Hello from alternate");
     }
 
     public void Main()
